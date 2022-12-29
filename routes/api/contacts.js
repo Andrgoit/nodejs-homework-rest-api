@@ -7,23 +7,31 @@ const {
   validateParams,
   validateBody,
   validateFavorite,
+  authenticate,
 } = require("../../middlewares");
 
 // импортируем контроллеры
 const ctrl = require("../../controllers/contacts");
 
-router.get("/", ctrl.listContacts);
+router.get("/", authenticate, ctrl.listContacts);
 
-router.get("/:contactId", validateParams, ctrl.getContactById);
+router.get("/:contactId", authenticate, validateParams, ctrl.getContactById);
 
-router.post("/", validateBody, ctrl.addContact);
+router.post("/", authenticate, validateBody, ctrl.addContact);
 
-router.delete("/:contactId", validateParams, ctrl.removeContact);
+router.delete("/:contactId", authenticate, validateParams, ctrl.removeContact);
 
-router.put("/:contactId", validateParams, validateBody, ctrl.updateContact);
+router.put(
+  "/:contactId",
+  authenticate,
+  validateParams,
+  validateBody,
+  ctrl.updateContact
+);
 
 router.patch(
   "/:contactId/favorite",
+  authenticate,
   validateParams,
   validateFavorite,
   ctrl.updateContact
