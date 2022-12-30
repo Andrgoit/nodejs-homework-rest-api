@@ -3,21 +3,16 @@ const Contact = require("../../models/contact");
 const listContacts = async (req, res, next) => {
   try {
     // настройка пагинации
-    // const { page = 1, limit = 5 } = req.query;
-    // const skip = (page - 1) * limit;
+    const { page = 1, limit = 2 } = req.query;
+    const skip = (page - 1) * limit;
     // конец настройки пагинации
 
     const { _id: owner } = req.user;
-    const result = await Contact.find(
-      { owner },
-      "-createdAt -updatedAt"
-    ).populate("owner", "name email");
-
-    // ответ с пагинацией
-    // const result = await Contact.find({ owner }, { skip, limit }).populate(
-    //   "owner",
-    //   "name email"
-    // );
+    // если объект с настройками пагинации передать не третьим аргументом - будет ошибка
+    const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
+      skip,
+      limit,
+    }).populate("owner", "name email");
 
     // const result = await Contact.find({}, "name email phone");
     // если после пустого объекта передать строку с перечнем полей, то только эти поля будут возвращены в ответе
