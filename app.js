@@ -7,6 +7,8 @@ require("dotenv").config();
 const authRouter = require("./routes/api/auth");
 const contactsRouter = require("./routes/api/contacts");
 
+const { authenticate } = require("./middlewares/");
+
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -20,7 +22,7 @@ app.use(express.json());
 
 // список маршрутов и роутов, которые за них отвечают
 app.use("/api/users", authRouter);
-app.use("/api/contacts", contactsRouter);
+app.use("/api/contacts", authenticate, contactsRouter);
 
 // после маршрутов ставится.
 // выдает ошибку 404, если машрут не найден
