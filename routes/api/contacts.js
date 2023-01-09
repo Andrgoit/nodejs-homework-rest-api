@@ -9,24 +9,31 @@ const {
   validateFavorite,
 } = require("../../middlewares");
 
+const { ctrlWrapper } = require("../../helpers");
+
 // импортируем контроллеры
 const ctrl = require("../../controllers/contacts");
 
-router.get("/", ctrl.listContacts);
+router.get("/", ctrlWrapper(ctrl.listContacts));
 
-router.get("/:contactId", validateParams, ctrl.getContactById);
+router.get("/:contactId", validateParams, ctrlWrapper(ctrl.getContactById));
 
-router.post("/", validateBody, ctrl.addContact);
+router.post("/", validateBody, ctrlWrapper(ctrl.addContact));
 
-router.delete("/:contactId", validateParams, ctrl.removeContact);
+router.delete("/:contactId", validateParams, ctrlWrapper(ctrl.removeContact));
 
-router.put("/:contactId", validateParams, validateBody, ctrl.updateContact);
+router.put(
+  "/:contactId",
+  validateParams,
+  validateBody,
+  ctrlWrapper(ctrl.updateContact)
+);
 
 router.patch(
   "/:contactId/favorite",
   validateParams,
   validateFavorite,
-  ctrl.updateContact
+  ctrlWrapper(ctrl.updateContact)
 );
 
 module.exports = router;
