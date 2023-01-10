@@ -4,12 +4,21 @@ const {
   validateRegister,
   validateLogin,
   authenticate,
+  upload,
 } = require("../../middlewares");
+
+const { ctrlWrapper } = require("../../helpers");
 const ctrl = require("../../controllers/auth");
 
-router.post("/register", validateRegister, ctrl.register);
-router.post("/login", validateLogin, ctrl.login);
-router.get("/current", authenticate, ctrl.getCurrent);
-router.post("/logout", authenticate, ctrl.logout);
+router.post("/register", validateRegister, ctrlWrapper(ctrl.register));
+router.post("/login", validateLogin, ctrlWrapper(ctrl.login));
+router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
+router.post("/logout", authenticate, ctrlWrapper(ctrl.logout));
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  ctrlWrapper(ctrl.updateAvatar)
+);
 
 module.exports = router;

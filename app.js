@@ -15,10 +15,15 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 // логирует запросы на сервер в консоли
 app.use(logger(formatsLogger));
+
 // позволяет выполнять запросы
 app.use(cors());
+
 // проверяет body запроса на наличие json => парсит json
 app.use(express.json());
+
+// раздача статических файлов
+app.use(express.static("public"));
 
 // список маршрутов и роутов, которые за них отвечают
 app.use("/api/users", authRouter);

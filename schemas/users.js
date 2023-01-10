@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const Joi = require("joi");
 const { Schema } = require("mongoose");
 
@@ -24,6 +25,7 @@ const userSchema = new Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
+    avatarURL: String,
     token: {
       type: String,
       default: null,
@@ -37,6 +39,7 @@ const registerSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().required(),
 });
+
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().required(),
