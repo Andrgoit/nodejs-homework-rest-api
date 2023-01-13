@@ -5,6 +5,7 @@ const validateRegister = require("./validateRegister");
 const validateLogin = require("./validateLogin");
 const authenticate = require("./authenticate");
 const upload = require("./upload");
+const validateVerificationEmail = require("./validateVerificationEmail");
 
 module.exports = {
   validateParams,
@@ -14,4 +15,5 @@ module.exports = {
   validateLogin,
   authenticate,
   upload,
+  validateVerificationEmail,
 };

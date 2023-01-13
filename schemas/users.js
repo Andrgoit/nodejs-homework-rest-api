@@ -1,7 +1,7 @@
-const { string } = require("joi");
 const Joi = require("joi");
 const { Schema } = require("mongoose");
 
+// eslint-disable-next-line no-useless-escape
 const emailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const userSchema = new Schema(
@@ -30,6 +30,14 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -45,8 +53,13 @@ const loginSchema = Joi.object({
   password: Joi.string().required(),
 });
 
+const verifyEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+});
+
 module.exports = {
   userSchema,
   registerSchema,
   loginSchema,
+  verifyEmailSchema,
 };
